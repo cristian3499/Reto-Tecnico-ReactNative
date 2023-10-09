@@ -22,6 +22,11 @@ git clone https://github.com/cristian3499/Reto-Tecnico-ReactNative.git
 cd ruta/del/proyecto
 npm install
 ```
+Ejecutar el proyecto y esocger ambiente:
+```bash
+npx expo start
+```
+
 3. Ejecuta la aplicación:
 Para iOS:
 ```bash
