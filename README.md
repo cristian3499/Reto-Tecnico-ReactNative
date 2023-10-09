@@ -14,7 +14,7 @@ Una aplicación de música construida con React Native que muestra las canciones
 1. Clona este repositorio:
 
 ```bash
-git clone [URL]
+git clone https://github.com/cristian3499/Reto-Tecnico-ReactNative.git
 ```
 
 2. Instala las dependencias:
