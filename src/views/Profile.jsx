@@ -10,58 +10,73 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16
     },
-    header: {
-        fontSize: 24,
+    profileHeader: {
+        alignItems: 'center',
+        marginVertical: 30,
+        backgroundColor: '#2e436c',
+        padding: 20,
+        borderRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+        elevation: 8,
+    },
+    avatarContainer: {
+        marginBottom: 15,
+    },
+    userName: {
+        fontSize: 22,
+        fontWeight: 'bold',
         color: '#fff',
-        textAlign: 'center',
-        marginVertical: 20
+    },
+    userStats: {
+        fontSize: 14,
+        color: '#ccc',
+        marginTop: 5,
+    },
+    sectionTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginBottom: 15,
+        marginTop: 10,
     },
     card: {
         flexDirection: 'row',
-        padding: 16,
-        marginBottom: 16,
+        padding: 12,
+        marginBottom: 12,
         backgroundColor: '#2e436c',
-        borderRadius: 8,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        position: 'relative'
+        borderRadius: 12,
+        alignItems: 'center'
     },
     image: {
-        width: 60,
-        height: 60,
-        marginRight: 16,
-        borderRadius: 8
+        width: 50,
+        height: 50,
+        borderRadius: 6,
+        marginRight: 12
     },
     textContainer: {
         flex: 1,
-        justifyContent: 'center'
     },
     trackName: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: 'bold'
     },
     artistName: {
-        color: 'gray'
+        color: '#aaa',
+        fontSize: 13
     },
     playIcon: {
-        position: 'absolute',
-        bottom: 10,
-        right: 10,
-        fontSize: 30,
-        color: '#fff'
+        fontSize: 24,
+        color: 'tomato'
     },
     noSongsText: {
-        color: '#fff',
-        fontSize: 18,
+        color: '#ccc',
+        fontSize: 16,
         textAlign: 'center',
-        marginTop: 20,
+        marginTop: 40,
         fontStyle: 'italic'
     }
 });
@@ -83,8 +98,15 @@ const Profile = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Mi Perfil</Text>
-            <Text style={styles.header}>Últimas canciones reproducidas</Text>
+            <View style={styles.profileHeader}>
+                <View style={styles.avatarContainer}>
+                    <Icon name="user-circle" size={80} color="#fff" />
+                </View>
+                <Text style={styles.userName}>Melómano Pro</Text>
+                <Text style={styles.userStats}>{lastPlayed.length} canciones recientemente</Text>
+            </View>
+
+            <Text style={styles.sectionTitle}>Mi Historial</Text>
             {lastPlayed.length === 0 ? (
                 <Text style={styles.noSongsText}>¡Vamos! Anímate a escuchar algo 🎶</Text>
             ) : (

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Text, View, FlatList, StyleSheet, Image, TouchableOpacity, Modal } from "react-native";
+import { Text, View, FlatList, StyleSheet, Image, TouchableOpacity, Modal, TextInput } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import TrackModal from "../components/TrackModal";
 import Loading  from "../components/Loading";
 import useTopTracks from '../hooks/useTopTracks';
@@ -66,6 +67,32 @@ const styles = StyleSheet.create({
     },
     playButtonText: {
         color: '#fff'
+    },
+    searchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#2e436c',
+        borderRadius: 25,
+        margin: 16,
+        paddingHorizontal: 15,
+        height: 50,
+        borderWidth: 1,
+        borderColor: '#3e537c'
+    },
+    searchIcon: {
+        marginRight: 10
+    },
+    searchInput: {
+        flex: 1,
+        color: '#fff',
+        fontSize: 16
+    },
+    emptyText: {
+        color: '#ccc',
+        textAlign: 'center',
+        marginTop: 50,
+        fontSize: 16,
+        fontStyle: 'italic'
     }
 });
 
@@ -73,6 +100,7 @@ const Home = () => {
     const { tracks, loading } = useTopTracks('mexico');
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedTrack, setSelectedTrack] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const handlePlayPress = async (track) => {
         let currentTracks = JSON.parse(await AsyncStorage.getItem('recentlyPlayed')) || [];
@@ -86,14 +114,29 @@ const Home = () => {
         setModalVisible(true);
     }
 
+    const filteredTracks = tracks.filter(track => 
+        track.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        track.artist.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     if (loading) {
-        return <Text> <Loading/> </Text>;
+        return <Loading/>;
     }
 
     return (
         <View style={styles.bgContainer}>
+            <View style={styles.searchContainer}>
+                <Icon name="search" size={20} color="#ccc" style={styles.searchIcon} />
+                <TextInput
+                    style={styles.searchInput}
+                    placeholder="Buscar canciones o artistas..."
+                    placeholderTextColor="#ccc"
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                />
+            </View>
             <FlatList
-                data={tracks}
+                data={filteredTracks}
                 keyExtractor={(item) => item.url}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => handlePlayPress(item)} style={styles.card}>
@@ -107,6 +150,9 @@ const Home = () => {
                         </View>
                     </TouchableOpacity>
                 )}
+                ListEmptyComponent={
+                    <Text style={styles.emptyText}>No se encontraron resultados</Text>
+                }
             />
             {selectedTrack && (
                 <Modal
